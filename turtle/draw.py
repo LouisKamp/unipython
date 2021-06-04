@@ -33,7 +33,7 @@ def turtle_graph(lind_string: str, N: int) -> List[Union[float]]:
     screen = turtle.Screen()
     screen.setup(width=1000, height=1000, startx=0, starty=0)
     #screen.setworldcoordinates(-1000, -1000, 1000, 1000)
-    l = (2000/(3**N))
+    l = (300/(3**N))
     turtle.radians()
     turtle.screensize(1, 1)
     turtle.speed(0)
@@ -50,7 +50,7 @@ def turtle_graph(lind_string: str, N: int) -> List[Union[float]]:
     turtle.done()
 
 
-N = 8
+N = 6
 
 turtle_graph(lind_iter(sierpinski_system, sierpinski_init, N), N)
 
