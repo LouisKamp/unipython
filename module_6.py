@@ -1,6 +1,6 @@
 # %%
 
-from typing import Text, Union
+import pandas as pd
 import numpy as np
 
 # %% Assignment 6B
@@ -65,6 +65,15 @@ def letterFrequency(filename: str):
 
 
 print(letterFrequency('./Datafiles/small_text.txt'))
+
+
+# %% Assignment 6E
+
+
+def computeLanguageError(textFreq: np.ndarray):
+    langFreq = np.array(pd.read_csv(
+        "./letter_frequencies.csv"))[:, 1:].T
+    return np.sum((textFreq-langFreq)**2, axis=1)
 
 
 # %%
