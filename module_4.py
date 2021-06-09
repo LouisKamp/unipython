@@ -1,6 +1,15 @@
-# %% Assignment 4D
+# %% 4C
 
 import numpy as np
+a = 2
+
+x = a/2
+
+for i in range(100):
+    x = (x+a/x)/2
+
+print(x)
+# %% Assignment 4D
 
 
 def fermentationRate(measuredRate: np.ndarray, lowerBound: float, upperBound: float):
