@@ -42,6 +42,6 @@ def textToNato(plainText: str):
     return "-".join([f(x) for x in plainText])
 
 
-textToNato('hello')
+textToNato('hellO')
 
 # %%
