@@ -64,6 +64,16 @@ def letterFrequency(filename: str):
     return freq/letters.size*100
 
 
+# def letterFrequency_V2(filename: str):
+#     freq = np.zeros(26)
+#     fileIn = open(filename, 'r')
+#     text = fileIn.read().lower()
+#     alphabet = "abcdefghijklmnopqrstuvwxyz"
+
+#     for i, letter in enumerate(alphabet):
+#         freq[i] = text.count(letter)
+
+#     return freq/np.sum(freq)*100
 print(letterFrequency('./Datafiles/small_text.txt'))
 
 
