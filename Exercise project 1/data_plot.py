@@ -20,7 +20,19 @@ def dataPlot(data):
     y = data['Growth rate']
     plt.xlim(10, 60)
     plt.ylim(0, 1)
-    plt.scatter(x, y)
 
-    plt.savefig('test.png')
+    indexOne = data['Bacteria'] == 1
+    indexTwo = data['Bacteria'] == 2
+    indexThree = data['Bacteria'] == 3
+    indexFour = data['Bacteria'] == 4
+    # type one bacteria
+    plt.scatter(x[indexOne], y[indexOne])
+
+    plt.scatter(x[indexTwo], y[indexTwo])
+
+    plt.scatter(x[indexThree], y[indexThree])
+
+    plt.scatter(x[indexFour], y[indexFour])
+    plt.legend(bacteriaTypes)
+
     plt.show()

@@ -42,7 +42,7 @@ def inputFloat(prompt: str):
     while True:
         try:
             return float(input(prompt))
-        except:
+        except ValueError:
             print("Please input a number.")
 
 
@@ -52,10 +52,14 @@ def displayMenu(choices: List[str], prompt: str) -> int:
     while True:
         for i, choice in enumerate(choices):
             print(f"{i} - {choice}")
-        response = int(input(f"{prompt} ({itemsPrintList}): "))
-        if response in range(len(choices)):
-            return response
-        print("Please select a valid value")
+        try:
+            response = int(input(f"{prompt} ({itemsPrintList}): "))
+            if response in range(len(choices)):
+                return response
+            else:
+                raise ValueError('Not valid value')
+        except ValueError:
+            print("Please select a valid value.")
 
 
 def filterMenu(data: DataFrame):
@@ -76,9 +80,7 @@ def filterMenu(data: DataFrame):
 
         #dataColumn = ["Temperature", "Growth rate", "Bacteria"]
 
-        for i in range(len(data)):
-            filtedData[i] = data.iloc[i,
-                                      1] >= minVal and data.iloc[i, 1] <= maxVal
+        filtedData = (data.iloc[:, 1] >= minVal) & (data.iloc[:, 1] <= maxVal)
 
     if inputChoiceBool("Do you want to filter again?"):
         return filterMenu(data[filtedData])

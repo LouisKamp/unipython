@@ -11,6 +11,8 @@ bacteriaTypes = ["Salmonella enterica", "Bacillus cereus",
                  "Listeria", "Brochothrix thermosphacta"]
 
 
+# %%
+
 def dataLoad(filename: str) -> DataFrame:
     data = pd.read_csv(filename, names=dataColumn, delimiter=" ")
     xSize, ySize = data.shape

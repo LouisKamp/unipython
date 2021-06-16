@@ -50,7 +50,7 @@ def main():
 
             userTypeDisplayStatsResponse = displayMenu(
                 statisticValues, "Choose")
-            print(dataStatistics(
+            print(f"{statisticValues[userTypeDisplayStatsResponse]}: ", dataStatistics(
                 data, statisticValues[userTypeDisplayStatsResponse]))
 
         # Generate plots
@@ -58,6 +58,8 @@ def main():
             if dataHasBeenLoaded == False:
                 print("Import data before generating plots.")
                 continue
+
+            print("Plotting graphs.")
             dataPlot(data)
         # Quit
         if userMenuResponse == 4:
