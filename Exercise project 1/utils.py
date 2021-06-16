@@ -9,10 +9,17 @@ import pandas as pd
 import numpy as np
 
 
-def inputFilepath():
+def inputFilepath() -> str:
+    """IO function for user to input filepath
+
+    Returns:
+    filepath: str
+    """
     while True:
         print("Please specify the absolute path to the datafile:")
         filepath = input(os.path.abspath(".")+"/")
+
+        # Make sure i can load data from file
         try:
             data = pd.read_csv(filepath, delimiter=" ")
         except:
@@ -28,6 +35,11 @@ def inputFilepath():
 
 
 def inputChoiceBool(choice: str) -> bool:
+    """IO function for user to choose an option
+
+    Returns:
+    choice: bool
+    """
     while True:
         print(choice)
         response = input("[y]es / [n]o: ").lower()
@@ -38,7 +50,12 @@ def inputChoiceBool(choice: str) -> bool:
         print("Not a valid option.")
 
 
-def inputFloat(prompt: str):
+def inputFloat(prompt: str) -> float:
+    """IO function for user input a float
+
+    Returns:
+    val: float
+    """
     while True:
         try:
             return float(input(prompt))
@@ -47,6 +64,15 @@ def inputFloat(prompt: str):
 
 
 def displayMenu(choices: List[str], prompt: str) -> int:
+    """Displays a menu to the user with the a set of choices
+
+    Keywords:
+    choices: List[str] -- The list of choices the user can choose
+    prompt: str        -- A prompt to the user 
+
+    Returns:
+    choice: int        --  The index the user chooses
+    """
     items = list(range(len(choices)))
     itemsPrintList = ", ".join(str(x) for x in items)
     while True:
@@ -62,17 +88,28 @@ def displayMenu(choices: List[str], prompt: str) -> int:
             print("Please select a valid value.")
 
 
-def filterMenu(data: DataFrame):
-    xSize, ySize = data.shape
+# List of possible filters
+filterMenuItems = ["Filter for the bacteria type",
+                   "Filter for the growth rate"]
+
+
+def filterMenu(data: DataFrame) -> DataFrame:
+    """IO function to display the a filter menu and calcs the filter
+
+    Returns:
+    filteredData: Dataframe -- The filted data
+    """
+    xSize, = len(data)
     filtedData = np.ones(xSize, dtype=bool)
 
-    userFilterResponse = displayMenu(
-        ["Filter for the bacteria type", "Filter for the growth rate"], "Choose filter")
+    # Displays a menu
+    userFilterResponse = displayMenu(filterMenuItems, "Choose filter")
     # Filter for the Bacteria type
     if userFilterResponse == 0:
         print("Please pick a bactera to filter")
         userTypeFilterResponse = displayMenu(bacteriaTypes, "Pick bactera")
         filtedData = data['Bacteria'] == bacteriaValues[userTypeFilterResponse]
+
     # Filter for the Growth rate
     if userFilterResponse == 1:
         minVal = inputFloat("Min growth rate: ")
@@ -80,8 +117,9 @@ def filterMenu(data: DataFrame):
 
         #dataColumn = ["Temperature", "Growth rate", "Bacteria"]
 
-        filtedData = (data.iloc[:, 1] >= minVal) & (data.iloc[:, 1] <= maxVal)
-
+        filtedData = (data['Growth rate'] >= minVal) & (
+            data['Growth rate'] <= maxVal)
+    # Ask the user if they want to filter again
     if inputChoiceBool("Do you want to filter again?"):
         return filterMenu(data[filtedData])
 

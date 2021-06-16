@@ -18,6 +18,9 @@ def dataLoad(filename: str) -> DataFrame:
 
     Keyword arguments:
     filename: str -- The name of the file to be loaded
+
+    Returns:
+    data: DataFrame
     """
 
     # Loads data into a dataframe

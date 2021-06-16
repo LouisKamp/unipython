@@ -2,11 +2,21 @@
 import numpy as np
 from pandas.core.frame import DataFrame
 
+#
 statisticValues = ["Mean Temperature", "Mean Growth rate", "Std Temperature",
                    "Std Growth rate", "Rows", "Mean Cold Growth rate", "Mean Hot Growth rate"]
 
 
-def dataStatistics(data: DataFrame, statistic: str):
+def dataStatistics(data: DataFrame, statistic: str) -> float:
+    """A function to compute statistics for the data
+
+    Keyword arguments:
+    data: DataFrame -- The loaded data
+    statistic: str  -- can be: "Mean Temperature", "Mean Growth rate", "Std Temperature","Std Growth rate", "Rows", "Mean Cold Growth rate", "Mean Hot Growth rate"
+
+    Returns:
+    result: float
+    """
     # Mean Temperature
     if statistic == statisticValues[0]:
         result = np.mean(data["Temperature"])
