@@ -105,6 +105,7 @@ def filterMenu(data: DataFrame) -> DataFrame:
 
     # Displays a menu
     userFilterResponse = displayMenu(filterMenuItems, "Choose filter")
+
     # Filter for the Bacteria type
     if userFilterResponse == 0:
         print("Please pick a bactera to filter")
@@ -116,10 +117,9 @@ def filterMenu(data: DataFrame) -> DataFrame:
         minVal = inputFloat("Min growth rate: ")
         maxVal = inputFloat("Max growth rate: ")
 
-        #dataColumn = ["Temperature", "Growth rate", "Bacteria"]
-
         filtedData = (data['Growth rate'] >= minVal) & (
             data['Growth rate'] <= maxVal)
+
     # Ask the user if they want to filter again
     if inputChoiceBool("Do you want to filter again?"):
         return filterMenu(data[filtedData])
