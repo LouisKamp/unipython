@@ -33,7 +33,7 @@ def main():
             print("processing data...")
             data = dataLoad(filepath)
             dataHasBeenLoaded = True
-            print("processing data finished.")
+            print("processing data finished.\n")
 
         # Filter data
         if userMenuResponse == 1:

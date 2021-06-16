@@ -81,11 +81,12 @@ def displayMenu(choices: List[str], prompt: str) -> int:
         try:
             response = int(input(f"{prompt} ({itemsPrintList}): "))
             if response in range(len(choices)):
+                print("")
                 return response
             else:
                 raise ValueError('Not valid value')
         except ValueError:
-            print("Please select a valid value.")
+            print("Please select a valid value.\n")
 
 
 # List of possible filters
@@ -99,7 +100,7 @@ def filterMenu(data: DataFrame) -> DataFrame:
     Returns:
     filteredData: Dataframe -- The filted data
     """
-    xSize, = len(data)
+    xSize = len(data)
     filtedData = np.ones(xSize, dtype=bool)
 
     # Displays a menu
