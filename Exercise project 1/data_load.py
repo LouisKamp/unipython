@@ -36,13 +36,14 @@ def dataLoad(filename: str) -> DataFrame:
     for i, row in data.iterrows():
         if (row['Temperature'] >= 10 and row['Temperature'] <= 60) == False:
             selectedRows[i] = False
-            print(f"The row: {i} does not have the required tempeture range!")
+            print(
+                f"The row: {i+1} does not have the required tempeture range!")
         if row['Growth rate'] < 0:
             selectedRows[i] = False
-            print(f"The row: {i} does not have a positive growth rate!")
+            print(f"The row: {i+1} does not have a positive growth rate!")
         if row['Bacteria'] not in bacteriaValues:
             selectedRows[i] = False
-            print(f"The row: {i} contains a not allowed bacteria!")
+            print(f"The row: {i+1} contains a not allowed bacteria!")
 
     # Returns the only the selected rows of the data
     return data[selectedRows]
