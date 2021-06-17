@@ -1,12 +1,6 @@
 import os
 from typing import List
-
-from pandas.core.frame import DataFrame
-from pandas.io.pytables import Term
-from data_load import bacteriaTypes, bacteriaValues
 import pandas as pd
-
-import numpy as np
 
 
 def inputFilepath() -> str:
@@ -87,41 +81,3 @@ def displayMenu(choices: List[str], prompt: str) -> int:
                 raise ValueError('Not valid value')
         except ValueError:
             print("Please select a valid value.\n")
-
-
-# List of possible filters
-filterMenuItems = ["Filter for the bacteria type",
-                   "Filter for the growth rate"]
-
-
-def filterMenu(data: DataFrame) -> DataFrame:
-    """IO function to display the a filter menu and calcs the filter
-
-    Returns:
-    filteredData: Dataframe -- The filted data
-    """
-    xSize = len(data)
-    filtedData = np.ones(xSize, dtype=bool)
-
-    # Displays a menu
-    userFilterResponse = displayMenu(filterMenuItems, "Choose filter")
-
-    # Filter for the Bacteria type
-    if userFilterResponse == 0:
-        print("Please pick a bactera to filter")
-        userTypeFilterResponse = displayMenu(bacteriaTypes, "Pick bactera")
-        filtedData = data['Bacteria'] == bacteriaValues[userTypeFilterResponse]
-
-    # Filter for the Growth rate
-    if userFilterResponse == 1:
-        minVal = inputFloat("Min growth rate: ")
-        maxVal = inputFloat("Max growth rate: ")
-
-        filtedData = (data['Growth rate'] >= minVal) & (
-            data['Growth rate'] <= maxVal)
-
-    # Ask the user if they want to filter again
-    if inputChoiceBool("Do you want to filter again?"):
-        return filterMenu(data[filtedData])
-
-    return data[filtedData]

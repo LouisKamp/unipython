@@ -1,10 +1,11 @@
-import os
-from utils import displayMenu, filterMenu, inputFilepath
+from filter import Filter, displayFilter, filterData, filterMenu
+from utils import displayMenu, inputFilepath
 
 from data_load import dataLoad
 from data_statistics import dataStatistics, statisticValues
 from data_plot import dataPlot
 import pandas as pd
+from constants import bacteriaValues, menuItems
 
 import numpy as np
 
@@ -13,11 +14,10 @@ def main():
 
     # Setup
 
-    menuItems = ["Load data", "Filter data",
-                 "Display statistics", "Generate plots", "Quit"]
-
     data = None
     dataHasBeenLoaded = False
+
+    baseFilter: Filter = (np.copy(bacteriaValues), (None, None))
 
     # Welcome
     print("Welcome to Bacteria Data Analysis.")
@@ -25,6 +25,7 @@ def main():
     # Menu
 
     while True:
+        displayFilter(baseFilter)
         userMenuResponse = displayMenu(menuItems, "Choose menu item.")
         # Load data"
         if userMenuResponse == 0:
@@ -40,7 +41,8 @@ def main():
             if dataHasBeenLoaded == False:
                 print("Import data before filtering.")
                 continue
-            data = filterMenu(data)
+            displayFilter(baseFilter)
+            baseFilter = filterMenu(baseFilter)
 
         # Display statistics
         if userMenuResponse == 2:
@@ -48,10 +50,14 @@ def main():
                 print("Import data before displaying statistics.")
                 continue
 
+            displayFilter(baseFilter)
+            # Displays a menu of possible stats to calculate
             userTypeDisplayStatsResponse = displayMenu(
                 statisticValues, "Choose")
+
+            # Calcs and prints the statistics the user has chosen
             print(f"{statisticValues[userTypeDisplayStatsResponse]}: ", dataStatistics(
-                data, statisticValues[userTypeDisplayStatsResponse]))
+                filterData(data, baseFilter), statisticValues[userTypeDisplayStatsResponse]))
 
         # Generate plots
         if userMenuResponse == 3:
@@ -60,7 +66,7 @@ def main():
                 continue
 
             print("Plotting graphs.")
-            dataPlot(data)
+            dataPlot(filterData(data, baseFilter))
         # Quit
         if userMenuResponse == 4:
             break

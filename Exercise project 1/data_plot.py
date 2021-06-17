@@ -1,7 +1,7 @@
 # %%
 import matplotlib.pyplot as plt
 from pandas.core.frame import DataFrame
-from data_load import bacteriaTypes, bacteriaValues, dataLoad
+from constants import bacteriaTypes, bacteriaValues
 import numpy as np
 # %%
 

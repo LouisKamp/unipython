@@ -2,16 +2,9 @@
 import numpy as np
 import pandas as pd
 from pandas.core.frame import DataFrame
-
+from constants import dataColumn, bacteriaValues
 # %%
 
-dataColumn = ["Temperature", "Growth rate", "Bacteria"]
-bacteriaValues = [1, 2, 3, 4]
-bacteriaTypes = ["Salmonella enterica", "Bacillus cereus",
-                 "Listeria", "Brochothrix thermosphacta"]
-
-
-# %%
 
 def dataLoad(filename: str) -> DataFrame:
     """Loads data from a space separated values file
