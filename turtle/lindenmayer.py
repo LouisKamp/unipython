@@ -1,5 +1,4 @@
 #%%
-import time
 from typing import Dict, Literal, Tuple
 import numpy as np
 import math
@@ -9,7 +8,7 @@ import matplotlib.pyplot as plt
 
 # Sets up the systems and initial strings
 
-# Type for Lindenmayer Systems
+# Type for Lindenmayer Systems (Dict, initialString)
 LindemayerSystem = Tuple[Dict[str, str], str]
 
 
@@ -81,7 +80,7 @@ def LindIter(System: Literal["Koch", "Sierpinski"], N: int) -> str:
 
     for i in range(N):
         LindenmayerString = "".join([systemDict[char] for char in LindenmayerString])
-        if len(LindenmayerString) > 4e6:
+        if len(LindenmayerString) > 2e6:
             break
 
     return LindenmayerString
@@ -176,15 +175,18 @@ def turtlePlot(turtleCommands: np.ndarray):
 
     # Loops through and calculates the next vector for all angels
     for i in range(len(angleCommands)):
-        dirrectionArray[:, i + 1] = np.dot(
-            np.array(
-                [
-                    [math.cos(angleCommands[i]), -math.sin(angleCommands[i])],
-                    [math.sin(angleCommands[i]), math.cos(angleCommands[i])],
-                ]
-            ),
-            dirrectionArray[:, i],
-        )
+        try:
+            dirrectionArray[:, i + 1] = np.dot(
+                np.array(
+                    [
+                        [math.cos(angleCommands[i]), -math.sin(angleCommands[i])],
+                        [math.sin(angleCommands[i]), math.cos(angleCommands[i])],
+                    ]
+                ),
+                dirrectionArray[:, i],
+            )
+        except:
+            print("An error ocurred while displaying the turtle-plot. The plot might be incomplete.")
 
     # Allocates the coordinates array (the length needs to be one more than the number of segments)
     coordinatesArray = np.zeros((2, len(segmentCommands) + 1))
@@ -201,5 +203,5 @@ def turtlePlot(turtleCommands: np.ndarray):
     # Plots the coordinates
     xs, ys = coordinatesArray
     plt.plot(xs, ys, linewidth=1)
-    #plt.xlim((0, 1))
     plt.show()
+

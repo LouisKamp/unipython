@@ -135,26 +135,33 @@ def inputNumberOfIterations(chosenLindenmayerSystems: str,) -> Tuple[np.ndarray,
     """
 
     while True:
+
+        # IO -- input of number
         numberOfInterations = inputInt("Please choose number of iterations: ")
 
+        # Checks
         if numberOfInterations <= 0:
             print("Please chose an positive integer")
             continue
 
         if numberOfInterations > 8:
             userInputIterations = inputBoolean(
-                "Whoah dude, you have chosen a very large number of iterations! Sure you want to continue at your own risk?!"
+                "Whoah dude, you have chosen a very large number of iterations! The program might not be able to compute the lindenmayer string or plot the output. Want to continue at your own risk?!"
             )
             if not userInputIterations:
                 continue
 
+        # Compute the lindenmayer string
         lindenmayerString = LindIter(chosenLindenmayerSystems, numberOfInterations)
 
-        if len(lindenmayerString) > 4e6:
+        # Check if the output is larger than the max length
+        if len(lindenmayerString) > 2e6:
             print(
                 f"Waaaaaay to many turtlecommands! {numberOfInterations} iterations makes the Lindenmayer string exede 4 milion turtle commands!"
             )
             print("Try a smaller number of iterations :-)")
+            # Jump back to the begining of the while loop
             continue
 
         return (turtleGraph(lindenmayerString), numberOfInterations)
+
