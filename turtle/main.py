@@ -1,7 +1,6 @@
 from typing import Dict
 from matplotlib import pyplot as plt
 from utils import displayMenu, inputBoolean, inputChars, inputFloat, inputNumberOfIterations
-from constants import mainMenuItems
 from lindenmayer import (
     LindemayerSystem,
     lindenmayerSystemDict,
@@ -22,6 +21,11 @@ def main():
 
     chosenLindenmayerSystems = ""
     numberOfInterations = 0
+    
+    # Menu items
+    mainMenuItems = np.array(
+        ["Choose Lindenmayer system", "Generate plots", "New Lindenmayer system", "Quit"]
+    )
 
     # Main loop
 
