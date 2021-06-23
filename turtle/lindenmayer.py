@@ -8,8 +8,9 @@ import matplotlib.pyplot as plt
 #%%
 
 # Sets up the systems and initial strings
-LindemayerSystem = Tuple[Dict[str, str], str]
 
+# Type for Lindenmayer Systems
+LindemayerSystem = Tuple[Dict[str, str], str]
 
 
 koch_system: Dict[str, str] = {"S": "SLSRSLS", "L": "L", "R": "R"}
@@ -29,6 +30,20 @@ lindenmayerSystemDict: Dict[str, LindemayerSystem] = {
     "Koch": koch,
     "Sierpinski": sierpinski
 }
+
+
+
+letterValueDict = {}
+
+def printLetterValueDict():
+
+    if len(letterValueDict) == 0:
+        print("\nNo letters are defined.\n")
+    else:
+        print("Letters in use:")
+        for letter, value in letterValueDict.items():
+            print(f"{letter} -> {value}")
+
 
 
 #%%
@@ -66,6 +81,8 @@ def LindIter(System: Literal["Koch", "Sierpinski"], N: int) -> str:
 
     for i in range(N):
         LindenmayerString = "".join([systemDict[char] for char in LindenmayerString])
+        if len(LindenmayerString) > 4e6:
+            break
 
     return LindenmayerString
 
@@ -89,14 +106,10 @@ def turtleGraph(LindenmayerString: str) -> np.ndarray:
         Numpy array with altering length and angle commands [l1, a1, l2, a2..., an, ln]
     """
     # Counts the number of lineSegments
-    lineSegments = (
-        LindenmayerString.count("S")
-        + LindenmayerString.count("A")
-        + LindenmayerString.count("B")
-    )
+    lineSegments = math.ceil(len(LindenmayerString)/2)
 
     # Counts the number of turns
-    turns = LindenmayerString.count("L") + LindenmayerString.count("R")
+    turns = math.floor(len(LindenmayerString)/2)
 
     # Assign commands array
     turtleCommands = np.zeros(lineSegments + turns)
@@ -105,6 +118,7 @@ def turtleGraph(LindenmayerString: str) -> np.ndarray:
     lineSegmentLength = 0
     angleLeft = math.pi / 3
     angleRight = 0
+    usingCustomSystem = False
 
     # Determine if the programme is looking at a Sierpinski triangle or Koch curve
     if LindenmayerString.count("A") > 0:
@@ -115,11 +129,15 @@ def turtleGraph(LindenmayerString: str) -> np.ndarray:
         # Koch curve
         lineSegmentLength = (1 / 3) ** (math.log(lineSegments) / math.log(4))
         angleRight = -math.pi * (2 / 3)
+    elif all(c in letterValueDict for c in LindenmayerString ):
+        usingCustomSystem = True
     else:
         raise ValueError("No configuration for this lindenmayer string")
 
     for i, letter in enumerate(LindenmayerString):
-        if letter == "S" or letter == "A" or letter == "B":
+        if usingCustomSystem:
+            turtleCommands[i] = letterValueDict[letter]
+        elif letter == "S" or letter == "A" or letter == "B":
             turtleCommands[i] = lineSegmentLength
         elif letter == "L":
             turtleCommands[i] = angleLeft
@@ -183,5 +201,5 @@ def turtlePlot(turtleCommands: np.ndarray):
     # Plots the coordinates
     xs, ys = coordinatesArray
     plt.plot(xs, ys, linewidth=1)
-    plt.xlim((0, 1))
+    #plt.xlim((0, 1))
     plt.show()
